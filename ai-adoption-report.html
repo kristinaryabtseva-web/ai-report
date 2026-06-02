@@ -1,0 +1,825 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ШІ в організації — 2025–2026</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap');
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  :root {
+    --black: #0a0a0a; --white: #ffffff;
+    --gray-100: #f5f5f7; --gray-200: #e8e8ed; --gray-400: #86868b; --gray-600: #424245;
+    --accent: #0071e3; --green: #30d158; --orange: #ff9f0a; --red: #ff453a; --purple: #bf5af2;
+  }
+  html { scroll-behavior: smooth; }
+  body { font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif; background: var(--black); color: var(--white); -webkit-font-smoothing: antialiased; line-height: 1.6; }
+
+  /* HERO */
+  .hero { min-height: 100vh; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; padding: 80px 24px 80px; background: radial-gradient(ellipse 80% 60% at 50% 0%, #1a1a2e 0%, var(--black) 70%); position: relative; overflow: hidden; }
+  .hero::before { content: ''; position: absolute; top: -200px; left: 50%; transform: translateX(-50%); width: 800px; height: 800px; background: radial-gradient(circle, rgba(0,113,227,0.12) 0%, transparent 70%); pointer-events: none; }
+  .hero-eyebrow { font-size: 13px; font-weight: 600; letter-spacing: 0.15em; text-transform: uppercase; color: var(--accent); margin-bottom: 24px; }
+  .hero-title { font-size: clamp(48px, 8vw, 96px); font-weight: 800; line-height: 1.0; letter-spacing: -0.04em; margin-bottom: 24px; background: linear-gradient(160deg, #ffffff 0%, #a0a0a8 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+  .hero-title span { background: linear-gradient(135deg, #0071e3, #6e40c9); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+  .hero-sub { font-size: clamp(17px, 2.2vw, 22px); font-weight: 300; color: var(--gray-400); max-width: 580px; margin-bottom: 64px; }
+  .hero-meta { display: flex; gap: 40px; flex-wrap: wrap; justify-content: center; margin-bottom: 48px; }
+  .hero-meta-item { display: flex; flex-direction: column; align-items: center; }
+  .hero-meta-num { font-size: 42px; font-weight: 800; letter-spacing: -0.03em; }
+  .hero-meta-label { font-size: 12px; color: var(--gray-400); text-transform: uppercase; letter-spacing: 0.1em; margin-top: 4px; }
+  .divider { width: 1px; height: 60px; background: var(--gray-600); align-self: center; }
+  .scroll-hint { display: flex; flex-direction: column; align-items: center; gap: 8px; color: var(--gray-600); font-size: 11px; letter-spacing: 0.1em; text-transform: uppercase; animation: bounce 2s infinite; }
+  @keyframes bounce { 0%,100%{transform:translateY(0)} 50%{transform:translateY(6px)} }
+
+  /* LAYOUT */
+  section { padding: 96px 24px; }
+  .container { max-width: 1080px; margin: 0 auto; }
+  .section-eyebrow { font-size: 12px; font-weight: 600; letter-spacing: 0.15em; text-transform: uppercase; color: var(--accent); margin-bottom: 14px; }
+  .section-title { font-size: clamp(30px, 5vw, 54px); font-weight: 700; letter-spacing: -0.03em; line-height: 1.1; margin-bottom: 16px; }
+  .section-desc { font-size: 17px; color: var(--gray-400); max-width: 580px; line-height: 1.7; margin-bottom: 52px; }
+
+  /* SOURCES TABLE (moved up) */
+  .sources-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 2px; background: var(--gray-600); border-radius: 20px; overflow: hidden; margin-bottom: 32px; }
+  .source-item { background: #0d0d0f; padding: 28px 24px; }
+  .source-emoji { font-size: 24px; margin-bottom: 12px; }
+  .source-label { font-size: 14px; font-weight: 700; margin-bottom: 6px; }
+  .source-desc { font-size: 12px; color: var(--gray-400); line-height: 1.55; }
+  .source-tag { display: inline-block; margin-top: 10px; font-size: 10px; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; padding: 3px 8px; border-radius: 4px; }
+  .source-tag.fact { background: rgba(48,209,88,0.15); color: var(--green); }
+  .source-tag.partial { background: rgba(255,159,10,0.15); color: var(--orange); }
+  .source-tag.limited { background: rgba(255,69,58,0.15); color: var(--red); }
+  .disclaimer { background: #0d0d0f; border: 1px solid #1d1d1f; border-radius: 12px; padding: 18px 22px; font-size: 13px; color: var(--gray-400); line-height: 1.6; }
+  .disclaimer strong { color: var(--white); }
+
+  /* BLINDSPOTS */
+  .blindspot-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 2px; background: var(--gray-600); border-radius: 20px; overflow: hidden; }
+  .blindspot-item { background: #0d0d0f; padding: 28px 24px; }
+  .blindspot-icon { font-size: 26px; margin-bottom: 14px; }
+  .blindspot-title { font-size: 15px; font-weight: 700; margin-bottom: 8px; }
+  .blindspot-desc { font-size: 13px; color: var(--gray-400); line-height: 1.5; }
+  .blindspot-badge { display: inline-block; margin-top: 12px; font-size: 11px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; color: var(--orange); }
+
+  /* TREND */
+  .trend-viz { background: #111113; border-radius: 20px; padding: 36px 36px 28px; margin-bottom: 20px; }
+  .trend-bars { display: flex; gap: 48px; align-items: flex-end; height: 220px; margin-bottom: 24px; }
+  .trend-month { display: flex; flex-direction: column; align-items: center; flex: 1; }
+  .trend-bar-group { display: flex; gap: 5px; align-items: flex-end; width: 100%; justify-content: center; }
+  .trend-bar { width: 32px; border-radius: 5px 5px 0 0; cursor: default; }
+  .trend-month-label { font-size: 13px; color: var(--gray-400); margin-top: 10px; text-align: center; }
+  .trend-total { font-size: 11px; color: var(--gray-600); margin-top: 4px; }
+  .trend-legend { display: flex; gap: 20px; flex-wrap: wrap; }
+  .legend-item { display: flex; align-items: center; gap: 8px; font-size: 13px; color: var(--gray-400); }
+  .legend-dot { width: 10px; height: 10px; border-radius: 50%; flex-shrink: 0; }
+
+  /* TOOLS */
+  .tools-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(310px, 1fr)); gap: 16px; }
+  .tool-card { background: #111113; border: 1px solid #1d1d1f; border-radius: 20px; padding: 30px; }
+  .tool-header { display: flex; align-items: center; gap: 14px; margin-bottom: 20px; }
+  .tool-icon { width: 46px; height: 46px; border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 22px; flex-shrink: 0; }
+  .tool-name { font-size: 17px; font-weight: 700; }
+  .tool-type { font-size: 12px; color: var(--gray-400); margin-top: 2px; }
+  .tool-bar-row { display: flex; align-items: center; gap: 10px; margin-bottom: 9px; }
+  .tool-bar-label { font-size: 12px; color: var(--gray-400); width: 140px; flex-shrink: 0; }
+  .tool-bar-track { flex: 1; height: 4px; background: #2a2a2d; border-radius: 2px; overflow: hidden; }
+  .tool-bar-fill { height: 100%; border-radius: 2px; }
+  .tool-bar-pct { font-size: 13px; font-weight: 700; width: 48px; text-align: right; }
+  .tool-bar-abs { font-size: 11px; color: var(--gray-600); width: 36px; text-align: right; }
+  .tool-tags { display: flex; flex-wrap: wrap; gap: 7px; margin-top: 18px; }
+  .tag { background: #1d1d1f; color: var(--gray-400); font-size: 12px; padding: 5px 11px; border-radius: 100px; }
+  .tool-divider { height: 1px; background: #1d1d1f; margin: 18px 0; }
+  .tool-apps-label { font-size: 11px; color: var(--gray-600); text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 10px; }
+  .tool-apps { display: flex; flex-direction: column; gap: 7px; }
+  .tool-app-row { display: flex; align-items: center; gap: 8px; font-size: 12px; color: var(--gray-400); }
+  .app-bar-track { flex: 1; height: 3px; background: #2a2a2d; border-radius: 2px; overflow: hidden; }
+  .app-bar-fill { height: 100%; border-radius: 2px; background: #7c5cfc; }
+  .app-bar-n { font-size: 11px; color: var(--gray-600); width: 28px; text-align: right; flex-shrink: 0; }
+
+  /* TASKS MATRIX */
+  .tasks-table { width: 100%; border-collapse: collapse; margin-bottom: 16px; }
+  .tasks-table th { text-align: left; font-size: 11px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; color: var(--gray-600); padding: 10px 16px; border-bottom: 1px solid #1d1d1f; }
+  .tasks-table td { padding: 14px 16px; border-bottom: 1px solid #111113; font-size: 14px; vertical-align: top; }
+  .tasks-table tr:last-child td { border-bottom: none; }
+  .tasks-table td:first-child { color: var(--gray-400); font-size: 13px; }
+  .tasks-table tr { background: #0d0d0f; }
+  .tasks-table tr:nth-child(even) { background: #111113; }
+  .tasks-wrapper { border-radius: 16px; overflow: hidden; border: 1px solid #1d1d1f; }
+  .dot-pill { display: inline-block; font-size: 11px; padding: 3px 9px; border-radius: 100px; margin: 2px 3px 2px 0; }
+
+  /* INSIGHTS */
+  .insight-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 16px; }
+  .insight-card { border-radius: 20px; padding: 34px; position: relative; overflow: hidden; }
+  .insight-card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px; }
+  .insight-card.blue { background: linear-gradient(135deg, #001d3d 0%, #0a1628 100%); }
+  .insight-card.blue::before { background: linear-gradient(90deg, var(--accent), #6e40c9); }
+  .insight-card.green { background: linear-gradient(135deg, #001a0d 0%, #0a1a10 100%); }
+  .insight-card.green::before { background: var(--green); }
+  .insight-card.orange { background: linear-gradient(135deg, #1f0f00 0%, #1a1000 100%); }
+  .insight-card.orange::before { background: var(--orange); }
+  .insight-card.purple { background: linear-gradient(135deg, #1a0a2e 0%, #120a1e 100%); }
+  .insight-card.purple::before { background: var(--purple); }
+  .insight-card.red { background: linear-gradient(135deg, #1f0500 0%, #180500 100%); }
+  .insight-card.red::before { background: var(--red); }
+  .insight-num { font-size: 52px; font-weight: 800; letter-spacing: -0.04em; line-height: 1; margin-bottom: 10px; }
+  .insight-card.blue .insight-num { color: var(--accent); }
+  .insight-card.green .insight-num { color: var(--green); }
+  .insight-card.orange .insight-num { color: var(--orange); }
+  .insight-card.purple .insight-num { color: var(--purple); }
+  .insight-card.red .insight-num { color: var(--red); }
+  .insight-title { font-size: 17px; font-weight: 700; margin-bottom: 10px; }
+  .insight-desc { font-size: 13px; color: var(--gray-400); line-height: 1.65; }
+  .insight-fact { font-size: 11px; color: var(--gray-600); margin-top: 16px; padding-top: 14px; border-top: 1px solid rgba(255,255,255,0.06); }
+
+  /* ADVANCED */
+  .advanced-list { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 14px; }
+  .advanced-item { background: #111113; border: 1px solid #1d1d1f; border-radius: 16px; padding: 22px; display: flex; gap: 14px; }
+  .advanced-icon { font-size: 26px; flex-shrink: 0; }
+  .advanced-title { font-size: 15px; font-weight: 700; margin-bottom: 6px; }
+  .advanced-desc { font-size: 13px; color: var(--gray-400); line-height: 1.5; }
+  .advanced-badge { font-size: 10px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; margin-top: 8px; }
+  .badge-fact { color: var(--green); }
+  .badge-assumption { color: var(--orange); }
+
+  /* RECOMMENDATIONS */
+  .reco-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 16px; }
+  .reco-card { background: #111113; border: 1px solid #1d1d1f; border-radius: 20px; padding: 30px; }
+  .reco-num { font-size: 11px; font-weight: 700; letter-spacing: 0.12em; color: var(--accent); text-transform: uppercase; margin-bottom: 12px; }
+  .reco-title { font-size: 17px; font-weight: 700; margin-bottom: 10px; }
+  .reco-desc { font-size: 13px; color: var(--gray-400); line-height: 1.65; }
+  .reco-why { font-size: 12px; color: var(--gray-600); margin-top: 14px; padding-top: 12px; border-top: 1px solid #1d1d1f; }
+
+  /* FOOTER */
+  footer { padding: 60px 24px 80px; text-align: center; border-top: 1px solid #1d1d1f; }
+  .footer-title { font-size: 48px; font-weight: 800; letter-spacing: -0.04em; margin-bottom: 16px; background: linear-gradient(135deg, #ffffff, #86868b); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+  .footer-sub { font-size: 16px; color: var(--gray-400); max-width: 500px; margin: 0 auto 40px; line-height: 1.6; }
+  .legend-box { display: inline-flex; gap: 28px; background: #0d0d0f; border: 1px solid #1d1d1f; border-radius: 12px; padding: 16px 24px; margin-bottom: 32px; flex-wrap: wrap; justify-content: center; }
+  .legend-box-item { font-size: 13px; color: var(--gray-400); }
+  .footer-note { font-size: 12px; color: var(--gray-600); }
+</style>
+</head>
+<body>
+
+<!-- ═══ HERO ═══ -->
+<section class="hero">
+  <div class="hero-eyebrow">Звіт для CEO · Червень 2026</div>
+  <h1 class="hero-title">ШІ в організації.<br><span>Що ми знаємо.</span></h1>
+  <p class="hero-sub">Реальна картина використання штучного інтелекту на основі чотирьох джерел даних — з поправкою на те, що поза зоною видимості.</p>
+  <div class="hero-meta">
+    <div class="hero-meta-item">
+      <div class="hero-meta-num">510</div>
+      <div class="hero-meta-label">членів ШІ-спільноти</div>
+    </div>
+    <div class="divider"></div>
+    <div class="hero-meta-item">
+      <div class="hero-meta-num">709K</div>
+      <div class="hero-meta-label">запитів через Open WebUI<br><span style="font-size:10px;color:#424245">за 2026 рік</span></div>
+    </div>
+    <div class="divider"></div>
+    <div class="hero-meta-item">
+      <div class="hero-meta-num">3×</div>
+      <div class="hero-meta-label">зростання VPN-трафіку<br><span style="font-size:10px;color:#424245">бер → черв 2026</span></div>
+    </div>
+    <div class="divider"></div>
+    <div class="hero-meta-item">
+      <div class="hero-meta-num">195</div>
+      <div class="hero-meta-label">ліцензій Copilot M365<br><span style="font-size:10px;color:#424245">100 зараз активні</span></div>
+    </div>
+  </div>
+  <div class="scroll-hint">
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+    Прокрути вниз
+  </div>
+</section>
+
+
+<!-- ═══ ДЖЕРЕЛА — першим ═══ -->
+<section style="background:#060608;">
+  <div class="container">
+    <div class="section-eyebrow">Методологія — читай спочатку</div>
+    <h2 class="section-title">Звідки ці дані.</h2>
+    <p class="section-desc">Чотири джерела — жодне не покриває всю організацію. Разом дають реалістичнішу картину.</p>
+
+    <div class="sources-grid">
+      <div class="source-item">
+        <div class="source-emoji">📋</div>
+        <div class="source-label">Опитування спільноти</div>
+        <div class="source-desc">Добровільне анкетування при вступі в ШІ-спільноту. 510 заповнених форм. Охоплює найактивніших і наймотивованіших — не середнього співробітника.</div>
+        <div><span class="source-tag partial">Bias у вибірці</span></div>
+      </div>
+      <div class="source-item">
+        <div class="source-emoji">🌐</div>
+        <div class="source-label">Проксі-трафік</div>
+        <div class="source-desc">Веб-запити через корпоративний проксі (VPN). Є дані за березень та червень 2026. Файли за березень і квітень виявились ідентичними — у звіті рахуємо лише березень. Показані тільки топ-сервіси, нетипові кейси не відображені.</div>
+        <div><span class="source-tag limited">VPN-only</span></div>
+      </div>
+      <div class="source-item">
+        <div class="source-emoji">🏢</div>
+        <div class="source-label">Open WebUI</div>
+        <div class="source-desc">Open WebUI — корпоративна ШІ-платформа. Файл містить дані за 15 місяців (бер 2025–трав 2026), 2M+ запитів загалом. У звіті використовуємо дані за 2026 рік як найактуальніші. Доступ переважно у ІТ-відділу.</div>
+        <div><span class="source-tag fact">Повні дані · ІТ-пріоритет</span></div>
+      </div>
+      <div class="source-item">
+        <div class="source-emoji">🪟</div>
+        <div class="source-label">Microsoft Copilot</div>
+        <div class="source-desc">Звіт активності з адмін-консолі Microsoft за 180 днів. 195 ліцензованих користувачів у звіті, зараз активних ліцензій — 100. Статистика по застосунках M365.</div>
+        <div><span class="source-tag fact">Повні дані</span></div>
+      </div>
+      <div class="source-item">
+        <div class="source-emoji">📊</div>
+        <div class="source-label">Щорічне опитування</div>
+        <div class="source-desc">Загальнобанківське опитування. Містить самозвіти про інструменти та кейси. Якісне джерело — точні цифри охоплення не відомі.</div>
+        <div><span class="source-tag partial">Якісне · самозвіт</span></div>
+      </div>
+    </div>
+
+    <br>
+    <div class="disclaimer">
+      <strong>Умовні позначення у звіті:</strong>&nbsp;&nbsp;
+      📊 <strong>Факт</strong> — підтверджено даними.&nbsp;&nbsp;
+      ⚠️ <strong>Припущення</strong> — логічний висновок на основі обмежень моніторингу або якісних відповідей. Потребує окремої верифікації.
+    </div>
+  </div>
+</section>
+
+
+<!-- ═══ СЛІПІ ЗОНИ ═══ -->
+<section style="background:#080810;">
+  <div class="container">
+    <div class="section-eyebrow">Обмеження даних</div>
+    <h2 class="section-title">Що ми не бачимо.</h2>
+    <p class="section-desc">Реальне використання значно вище. Наші цифри — нижня межа, а не повна картина.</p>
+    <div class="blindspot-grid">
+      <div class="blindspot-item">
+        <div class="blindspot-icon">🍎</div>
+        <div class="blindspot-title">MacBook-користувачі</div>
+        <div class="blindspot-desc">Всі колеги з MacBook перебувають поза корпоративним моніторингом трафіку.</div>
+        <div class="blindspot-badge">⚠ Не враховано</div>
+      </div>
+      <div class="blindspot-item">
+        <div class="blindspot-icon">🖥️</div>
+        <div class="blindspot-title">Десктопні додатки</div>
+        <div class="blindspot-desc">Claude Desktop, ChatGPT Desktop — трафік іде напряму, минаючи проксі.</div>
+        <div class="blindspot-badge">⚠ Не враховано</div>
+      </div>
+      <div class="blindspot-item">
+        <div class="blindspot-icon">📶</div>
+        <div class="blindspot-title">Робота поза VPN</div>
+        <div class="blindspot-desc">Деякі інструменти не вимагають VPN. Увесь такий трафік невидимий.</div>
+        <div class="blindspot-badge">⚠ Не враховано</div>
+      </div>
+      <div class="blindspot-item">
+        <div class="blindspot-icon">👤</div>
+        <div class="blindspot-title">Особисті акаунти</div>
+        <div class="blindspot-desc">Частина людей використовує власні підписки ChatGPT Plus, Claude Pro — відстежити неможливо.</div>
+        <div class="blindspot-badge">⚠ Не враховано</div>
+      </div>
+      <div class="blindspot-item">
+        <div class="blindspot-icon">🔎</div>
+        <div class="blindspot-title">Нетипові сервіси у проксі</div>
+        <div class="blindspot-desc">У проксі-звіті відображено тільки топ-сервіси. Менш поширені інструменти не потрапили у вивантаження.</div>
+        <div class="blindspot-badge">⚠ Часткове охоплення</div>
+      </div>
+      <div class="blindspot-item">
+        <div class="blindspot-icon">🤝</div>
+        <div class="blindspot-title">Спільнота — добровільна вибірка</div>
+        <div class="blindspot-desc">510 осіб — ті, хто прийшли самі. «Тихих» користувачів поза спільнотою ми не вимірюємо.</div>
+        <div class="blindspot-badge">⚠ Bias у вибірці</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ═══ ТРЕНД ПРОКСІ ═══ -->
+<section style="background:var(--black);">
+  <div class="container">
+    <div class="section-eyebrow">Проксі-трафік · березень та червень 2026 · VPN-only</div>
+    <h2 class="section-title">Claude обійшов ChatGPT.</h2>
+    <p class="section-desc">За три місяці загальний VPN-трафік виріс у 3×. Claude — з другого місця на перше. Anthropic API (розробники) виріс з 1 116 до 141 130 запитів.</p>
+
+    <div class="trend-viz">
+      <div style="font-size:13px;color:var(--gray-600);margin-bottom:20px;">Кількість запитів через корпоративний проксі · масштаб відносний</div>
+      <div class="trend-bars">
+        <!-- БЕРЕЗЕНЬ -->
+        <div class="trend-month">
+          <div class="trend-bar-group">
+            <div class="trend-bar" style="height:130px; background:#10a37f;" title="ChatGPT 60,774"></div>
+            <div class="trend-bar" style="height:100px; background:#cc785c;" title="Claude.ai 47,092"></div>
+            <div class="trend-bar" style="height:58px; background:#4285f4;" title="Gemini 27,096"></div>
+            <div class="trend-bar" style="height:18px; background:#eee;" title="ElevenLabs 8,604"></div>
+          </div>
+          <div class="trend-month-label">Березень 2026</div>
+          <div class="trend-total">157K запитів</div>
+        </div>
+        <!-- ЧЕРВЕНЬ -->
+        <div class="trend-month">
+          <div class="trend-bar-group">
+            <div class="trend-bar" style="height:200px; background:#cc785c;" title="Claude.ai 210,450"></div>
+            <div class="trend-bar" style="height:155px; background:#8a3010;" title="Anthropic API 141,130"></div>
+            <div class="trend-bar" style="height:59px; background:#10a37f;" title="ChatGPT 53,828"></div>
+            <div class="trend-bar" style="height:48px; background:#4285f4;" title="Gemini 44,138"></div>
+            <div class="trend-bar" style="height:12px; background:#eee;" title="ElevenLabs 11,496"></div>
+          </div>
+          <div class="trend-month-label">Червень 2026</div>
+          <div class="trend-total">469K запитів</div>
+        </div>
+      </div>
+      <div class="trend-legend">
+        <div class="legend-item"><div class="legend-dot" style="background:#cc785c;"></div> Claude.ai</div>
+        <div class="legend-item"><div class="legend-dot" style="background:#8a3010;"></div> Anthropic API (розробники)</div>
+        <div class="legend-item"><div class="legend-dot" style="background:#10a37f;"></div> ChatGPT</div>
+        <div class="legend-item"><div class="legend-dot" style="background:#4285f4;"></div> Gemini</div>
+        <div class="legend-item"><div class="legend-dot" style="background:#eee;"></div> ElevenLabs (голос)</div>
+      </div>
+    </div>
+
+    <div class="disclaimer">⚠️ <strong>Припущення:</strong> дані лише з VPN-каналу. MacBook, десктопні додатки та off-VPN трафік не відображені. Квітневий файл виявився дублем березня — не враховується. Нетипові сервіси у вивантаженні відсутні.</div>
+  </div>
+</section>
+
+
+<!-- ═══ ІНСТРУМЕНТИ — спільнота ═══ -->
+<section style="background:#080808;">
+  <div class="container">
+    <div class="section-eyebrow">Опитування спільноти · n = 510</div>
+    <h2 class="section-title">Чим користуються люди.</h2>
+    <p class="section-desc">Добровільна вибірка — найактивніші. Але це і є носії знань, які потім діляться з іншими.</p>
+
+    <div class="tools-grid">
+
+      <!-- ChatGPT -->
+      <div class="tool-card">
+        <div class="tool-header">
+          <div class="tool-icon" style="background:#0d2a1a;">🤖</div>
+          <div><div class="tool-name">ChatGPT (OpenAI)</div><div class="tool-type">Найпоширеніший інструмент</div></div>
+        </div>
+        <div class="tool-bar-row">
+          <div class="tool-bar-label">Спільнота (n=510)</div>
+          <div class="tool-bar-track"><div class="tool-bar-fill" style="width:91.4%; background:#10a37f;"></div></div>
+          <div class="tool-bar-pct" style="color:#10a37f;">91%</div>
+          <div class="tool-bar-abs" style="color:#424245;">466</div>
+        </div>
+        <div class="tool-divider"></div>
+        <div class="tool-apps-label">Чим закривають</div>
+        <div class="tool-tags">
+          <span class="tag">✍️ Написання та редагування текстів</span>
+          <span class="tag">💻 Написання коду</span>
+          <span class="tag">🗃️ SQL та формули Excel</span>
+          <span class="tag">📊 Аналітика</span>
+          <span class="tag">🎤 Скрипти та сценарії</span>
+          <span class="tag">📚 Пояснення термінів</span>
+          <span class="tag">📑 Презентації</span>
+        </div>
+      </div>
+
+      <!-- Gemini -->
+      <div class="tool-card">
+        <div class="tool-header">
+          <div class="tool-icon" style="background:#0d1a2e;">✦</div>
+          <div><div class="tool-name">Google Gemini</div><div class="tool-type">Друге місце за популярністю</div></div>
+        </div>
+        <div class="tool-bar-row">
+          <div class="tool-bar-label">Спільнота (n=510)</div>
+          <div class="tool-bar-track"><div class="tool-bar-fill" style="width:45.9%; background:#4285f4;"></div></div>
+          <div class="tool-bar-pct" style="color:#4285f4;">46%</div>
+          <div class="tool-bar-abs" style="color:#424245;">234</div>
+        </div>
+        <div class="tool-divider"></div>
+        <div class="tool-tags">
+          <span class="tag">🔍 Пошук інформації</span>
+          <span class="tag">📝 Робота з текстами</span>
+          <span class="tag">💬 Консультації</span>
+          <span class="tag">📈 Аналіз</span>
+        </div>
+      </div>
+
+      <!-- Copilot -->
+      <div class="tool-card">
+        <div class="tool-header">
+          <div class="tool-icon" style="background:#0e0e2e;">🪟</div>
+          <div><div class="tool-name">Microsoft Copilot</div><div class="tool-type">Корпоративна ліцензія · M365</div></div>
+        </div>
+        <div class="tool-bar-row">
+          <div class="tool-bar-label">Спільнота (n=510)</div>
+          <div class="tool-bar-track"><div class="tool-bar-fill" style="width:43.1%; background:#7c5cfc;"></div></div>
+          <div class="tool-bar-pct" style="color:#7c5cfc;">43%</div>
+          <div class="tool-bar-abs" style="color:#424245;">220</div>
+        </div>
+        <div class="tool-bar-row">
+          <div class="tool-bar-label">Ліцензії (зараз)</div>
+          <div class="tool-bar-track"><div class="tool-bar-fill" style="width:51%; background:#7c5cfc; opacity:0.4;"></div></div>
+          <div class="tool-bar-pct" style="color:#424245;">100</div>
+          <div class="tool-bar-abs" style="color:#424245;">акт.</div>
+        </div>
+        <div class="tool-divider"></div>
+        <div class="tool-apps-label">Використання по додатках (з 195 у звіті)</div>
+        <div class="tool-apps">
+          <div class="tool-app-row">Teams<div class="app-bar-track"><div class="app-bar-fill" style="width:94%;"></div></div><div class="app-bar-n">184</div></div>
+          <div class="tool-app-row">Copilot Chat<div class="app-bar-track"><div class="app-bar-fill" style="width:91%;"></div></div><div class="app-bar-n">177</div></div>
+          <div class="tool-app-row">M365 App<div class="app-bar-track"><div class="app-bar-fill" style="width:76%;"></div></div><div class="app-bar-n">148</div></div>
+          <div class="tool-app-row">Outlook<div class="app-bar-track"><div class="app-bar-fill" style="width:55%;"></div></div><div class="app-bar-n">108</div></div>
+          <div class="tool-app-row">Word<div class="app-bar-track"><div class="app-bar-fill" style="width:53%;"></div></div><div class="app-bar-n">104</div></div>
+          <div class="tool-app-row">Excel<div class="app-bar-track"><div class="app-bar-fill" style="width:48%;"></div></div><div class="app-bar-n">94</div></div>
+          <div class="tool-app-row">Copilot Agent<div class="app-bar-track"><div class="app-bar-fill" style="width:46%;"></div></div><div class="app-bar-n">90</div></div>
+          <div class="tool-app-row">PowerPoint<div class="app-bar-track"><div class="app-bar-fill" style="width:34%;"></div></div><div class="app-bar-n">66</div></div>
+        </div>
+        <div class="tool-divider"></div>
+        <div class="tool-tags">
+          <span class="tag">📄 Саммері документів</span>
+          <span class="tag">📧 Outlook-листи</span>
+          <span class="tag">📊 Аналіз великих масивів</span>
+        </div>
+        <div style="font-size:12px;color:var(--gray-600);margin-top:12px;">📊 Факт · дані адмін-консолі Microsoft · 180 днів · 30 989 prompts total</div>
+      </div>
+
+      <!-- Canva / Gamma -->
+      <div class="tool-card">
+        <div class="tool-header">
+          <div class="tool-icon" style="background:#2a1a08;">🎨</div>
+          <div><div class="tool-name">Canva AI / Gamma</div><div class="tool-type">Контент і презентації</div></div>
+        </div>
+        <div class="tool-bar-row">
+          <div class="tool-bar-label">Спільнота (n=510)</div>
+          <div class="tool-bar-track"><div class="tool-bar-fill" style="width:22.9%; background:#ff9f0a;"></div></div>
+          <div class="tool-bar-pct" style="color:#ff9f0a;">23%</div>
+          <div class="tool-bar-abs" style="color:#424245;">117</div>
+        </div>
+        <div class="tool-divider"></div>
+        <div class="tool-tags">
+          <span class="tag">📑 Презентації</span>
+          <span class="tag">🖼️ Генерація зображень</span>
+          <span class="tag">📣 Маркетинг і комунікації</span>
+        </div>
+      </div>
+
+      <!-- NotebookLM -->
+      <div class="tool-card">
+        <div class="tool-header">
+          <div class="tool-icon" style="background:#0a1a10;">📓</div>
+          <div><div class="tool-name">NotebookLM</div><div class="tool-type">Google · робота з документами</div></div>
+        </div>
+        <div class="tool-bar-row">
+          <div class="tool-bar-label">Спільнота (n=510)</div>
+          <div class="tool-bar-track"><div class="tool-bar-fill" style="width:8.4%; background:#30d158;"></div></div>
+          <div class="tool-bar-pct" style="color:#30d158;">8.4%</div>
+          <div class="tool-bar-abs" style="color:#424245;">43</div>
+        </div>
+        <div class="tool-divider"></div>
+        <div class="tool-tags">
+          <span class="tag">📚 Аналіз великих документів</span>
+          <span class="tag">🔍 База знань</span>
+          <span class="tag">🎙️ Подкасти з документів</span>
+        </div>
+      </div>
+
+      <!-- Спеціалізовані -->
+      <div class="tool-card">
+        <div class="tool-header">
+          <div class="tool-icon" style="background:#1a1a0a;">⚙️</div>
+          <div><div class="tool-name">Інші інструменти</div><div class="tool-type">Perplexity · Midjourney · n8n · ElevenLabs</div></div>
+        </div>
+        <div class="tool-bar-row">
+          <div class="tool-bar-label">Midjourney</div>
+          <div class="tool-bar-track"><div class="tool-bar-fill" style="width:5.3%; background:#bf5af2;"></div></div>
+          <div class="tool-bar-pct" style="color:#bf5af2;">5.3%</div>
+          <div class="tool-bar-abs" style="color:#424245;">27</div>
+        </div>
+        <div class="tool-bar-row">
+          <div class="tool-bar-label">Perplexity PRO</div>
+          <div class="tool-bar-track"><div class="tool-bar-fill" style="width:4.7%; background:#bf5af2; opacity:.6;"></div></div>
+          <div class="tool-bar-pct" style="color:#424245;">4.7%</div>
+          <div class="tool-bar-abs" style="color:#424245;">24</div>
+        </div>
+        <div class="tool-bar-row">
+          <div class="tool-bar-label">n8n / Make</div>
+          <div class="tool-bar-track"><div class="tool-bar-fill" style="width:3.5%; background:#bf5af2; opacity:.4;"></div></div>
+          <div class="tool-bar-pct" style="color:#424245;">3.5%</div>
+          <div class="tool-bar-abs" style="color:#424245;">18</div>
+        </div>
+        <div class="tool-bar-row">
+          <div class="tool-bar-label">HeyGen / ElevenLabs</div>
+          <div class="tool-bar-track"><div class="tool-bar-fill" style="width:2.7%; background:#bf5af2; opacity:.3;"></div></div>
+          <div class="tool-bar-pct" style="color:#424245;">2.7%</div>
+          <div class="tool-bar-abs" style="color:#424245;">14</div>
+        </div>
+        <div class="tool-divider"></div>
+        <div class="tool-tags">
+          <span class="tag">🖼️ Генерація зображень</span>
+          <span class="tag">🔊 Голос і відео</span>
+          <span class="tag">⚡ Автоматизація</span>
+          <span class="tag">🔎 Дослідження</span>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+
+<!-- ═══ ЗАДАЧІ ПО ІНСТРУМЕНТАХ ═══ -->
+<section style="background:#060608;">
+  <div class="container">
+    <div class="section-eyebrow">Щорічне опитування + спільнота · якісні дані</div>
+    <h2 class="section-title">Хто чим і навіщо.</h2>
+    <p class="section-desc">Самозвіти про задачі — не охоплення, а напрями використання. Абсолютні цифри за задачами відсутні.</p>
+
+    <div class="tasks-wrapper">
+      <table class="tasks-table">
+        <thead>
+          <tr>
+            <th>Задача / Функція</th>
+            <th>Інструменти</th>
+            <th>Хто використовує</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Написання і редагування текстів, листів, звітів</td>
+            <td>
+              <span class="dot-pill" style="background:#0d2a1a;color:#10a37f;">ChatGPT</span>
+              <span class="dot-pill" style="background:#0e0e2e;color:#7c5cfc;">Copilot</span>
+              <span class="dot-pill" style="background:#0d1a2e;color:#4285f4;">Gemini</span>
+            </td>
+            <td>Всі рівні — від спеціалістів до керівників</td>
+          </tr>
+          <tr>
+            <td>Написання коду, SQL-запитів, формул Excel</td>
+            <td>
+              <span class="dot-pill" style="background:#0d2a1a;color:#10a37f;">ChatGPT</span>
+              <span class="dot-pill" style="background:#0a1020;color:#cc785c;">Claude</span>
+              <span class="dot-pill" style="background:#0e0e2e;color:#7c5cfc;">Open WebUI</span>
+            </td>
+            <td>Розробники, аналітики, QA, системні аналітики</td>
+          </tr>
+          <tr>
+            <td>Аналіз та структурування великих масивів даних</td>
+            <td>
+              <span class="dot-pill" style="background:#0d2a1a;color:#10a37f;">ChatGPT</span>
+              <span class="dot-pill" style="background:#0e0e2e;color:#7c5cfc;">Copilot</span>
+              <span class="dot-pill" style="background:#0d1a0a;color:#30d158;">NotebookLM</span>
+            </td>
+            <td>Аналітики, ризик-менеджери, PM</td>
+          </tr>
+          <tr>
+            <td>Створення презентацій і генерація зображень</td>
+            <td>
+              <span class="dot-pill" style="background:#2a1a08;color:#ff9f0a;">Canva / Gamma</span>
+              <span class="dot-pill" style="background:#0e0e2e;color:#7c5cfc;">Copilot</span>
+              <span class="dot-pill" style="background:#1a0a2e;color:#bf5af2;">Midjourney</span>
+            </td>
+            <td>Маркетинг, комунікації, проєктні менеджери</td>
+          </tr>
+          <tr>
+            <td>Автоматизація бізнес-процесів</td>
+            <td>
+              <span class="dot-pill" style="background:#1a1a0a;color:#eee;">n8n / Make</span>
+              <span class="dot-pill" style="background:#0e0e2e;color:#7c5cfc;">Open WebUI API</span>
+            </td>
+            <td>18 осіб зі спільноти · переважно ІТ та операційні команди</td>
+          </tr>
+          <tr>
+            <td>Саммері зустрічей і документів, Teams-нотатки</td>
+            <td>
+              <span class="dot-pill" style="background:#0e0e2e;color:#7c5cfc;">Copilot Teams</span>
+              <span class="dot-pill" style="background:#0d1a0a;color:#30d158;">NotebookLM</span>
+            </td>
+            <td>Керівники, PM — 184/195 Copilot-ліцензій мають Teams</td>
+          </tr>
+          <tr>
+            <td>Генерація та синтез голосу / відео</td>
+            <td>
+              <span class="dot-pill" style="background:#1a1a0a;color:#eee;">ElevenLabs</span>
+              <span class="dot-pill" style="background:#1a1a0a;color:#eee;">HeyGen</span>
+            </td>
+            <td>14 осіб зі спільноти · 8 604–11 496 запитів у проксі</td>
+          </tr>
+          <tr>
+            <td>Юридичні документи, compliance, перевірка майна</td>
+            <td>
+              <span class="dot-pill" style="background:#0a1020;color:#cc785c;">LLM (custom)</span>
+              <span class="dot-pill" style="background:#0d2a1a;color:#10a37f;">ChatGPT</span>
+            </td>
+            <td>⚠️ Припущення — підтверджено щорічним опитуванням, масштаб невідомий</td>
+          </tr>
+          <tr>
+            <td>Відеоаналітика (комп'ютерний зір)</td>
+            <td>
+              <span class="dot-pill" style="background:#1a0a0a;color:#ff453a;">YOLO v11</span>
+            </td>
+            <td>⚠️ Припущення — підтверджено щорічним опитуванням, масштаб невідомий</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+
+<!-- ═══ OPEN WEBUI ═══ -->
+<section style="background:var(--black);">
+  <div class="container">
+    <div class="section-eyebrow">Open WebUI · 2026 рік (січ–трав)</div>
+    <h2 class="section-title">Корпоративна платформа — майже монополія ІТ.</h2>
+    <p class="section-desc">305 247 запитів за три місяці. Але 95% — один департамент. Файл загалом містить дані за 15 місяців (бер 2025 – трав 2026) з 2M+ запитів.</p>
+
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:2px;background:var(--gray-600);border-radius:20px;overflow:hidden;margin-bottom:32px;">
+      <div style="background:#111113;padding:32px 24px;">
+        <div style="font-size:44px;font-weight:800;letter-spacing:-0.04em;color:var(--purple);">709K</div>
+        <div style="font-size:14px;color:var(--gray-400);margin-top:6px;">запитів за 2026 рік (708 585)</div>
+        <div style="font-size:11px;color:var(--gray-600);margin-top:8px;">📊 Факт</div>
+      </div>
+      <div style="background:#111113;padding:32px 24px;">
+        <div style="font-size:44px;font-weight:800;letter-spacing:-0.04em;color:var(--red);">72%</div>
+        <div style="font-size:14px;color:var(--gray-400);margin-top:6px;">запитів — ІТ-департамент (511K з 709K)</div>
+        <div style="font-size:11px;color:var(--gray-600);margin-top:8px;">📊 Факт</div>
+      </div>
+      <div style="background:#111113;padding:32px 24px;">
+        <div style="font-size:44px;font-weight:800;letter-spacing:-0.04em;color:var(--green);">$8 502</div>
+        <div style="font-size:14px;color:var(--gray-400);margin-top:6px;">витрат за 2026 рік</div>
+        <div style="font-size:11px;color:var(--gray-600);margin-top:8px;">📊 Факт · ~$0.012/запит</div>
+      </div>
+      <div style="background:#111113;padding:32px 24px;">
+        <div style="font-size:44px;font-weight:800;letter-spacing:-0.04em;color:var(--accent);">33</div>
+        <div style="font-size:14px;color:var(--gray-400);margin-top:6px;">відділів використовували платформу у 2026</div>
+        <div style="font-size:11px;color:var(--gray-600);margin-top:8px;">📊 Факт · з 40 у 15-місячній вибірці</div>
+      </div>
+    </div>
+
+    <div class="disclaimer">⚠️ <strong>Важливо:</strong> файл «03-05 міс» містить дані за березень 2025 – травень 2026 (15 місяців, 2M+ запитів, $13 763 загалом). У звіті використовуємо 2026 рік як найактуальніший зріз. Доступ до платформи отримали переважно представники ІТ — дані не відображають потенційне використання бізнес-підрозділами.</div>
+  </div>
+</section>
+
+
+<!-- ═══ ІНСАЙТИ ═══ -->
+<section style="background:#060608;">
+  <div class="container">
+    <div class="section-eyebrow">Ключові висновки</div>
+    <h2 class="section-title">Шість інсайтів.</h2>
+    <p class="section-desc">Що ці дані говорять про організацію.</p>
+
+    <div class="insight-grid">
+      <div class="insight-card blue">
+        <div class="insight-num">×3</div>
+        <div class="insight-title">Вибух використання — він не зупиняється</div>
+        <div class="insight-desc">VPN-трафік: 157K запитів у березні → 469K у червні 2026. Claude API: 1 116 → 141 130 запитів (+12 557%). Це не мода — це зміна поведінки.</div>
+        <div class="insight-fact">📊 Факт · проксі-дані (VPN-канал)</div>
+      </div>
+
+      <div class="insight-card green">
+        <div class="insight-num">72%</div>
+        <div class="insight-title">Open WebUI — ІТ-інструмент, а не банківський</div>
+        <div class="insight-desc">289K з 305K запитів за 2026 рік (708 585) — один ІТ-департамент. 19 інших відділів разом дали лише 5%. Потенціал масштабування — величезний, але потрібен простіший онбординг.</div>
+        <div class="insight-fact">📊 Факт · дані Open WebUI</div>
+      </div>
+
+      <div class="insight-card orange">
+        <div class="insight-num">50%+</div>
+        <div class="insight-title">Реальне використання — вдвічі більше за видиме</div>
+        <div class="insight-desc">MacBook, десктопні додатки, off-VPN, особисті підписки — поза моніторингом. ⚠️ Оцінка: реальна кількість активних користувачів може бути в 1.5–3 рази вища за те, що бачимо.</div>
+        <div class="insight-fact">⚠️ Припущення · на основі обмежень інструментів</div>
+      </div>
+
+      <div class="insight-card purple">
+        <div class="insight-num">259</div>
+        <div class="insight-title">51% спільноти — вже активні (4–5 з 5)</div>
+        <div class="insight-desc">510 людей добровільно вступили в спільноту. Серед них: 151 оцінюють себе на 5/5, 108 — на 4/5. Це ядро амбасадорів, які тягнуть за собою інших.</div>
+        <div class="insight-fact">📊 Факт · опитування спільноти</div>
+      </div>
+
+      <div class="insight-card red">
+        <div class="insight-num">10+</div>
+        <div class="insight-title">Нішеві інструменти — сигнал зрілості</div>
+        <div class="insight-desc">YOLO v11, LLM для постанов про арешт, перевірка застави, N8N-пайплайни, GoogleADK. Організація вже будує ШІ-рішення без центральної координації — стихійно і успішно.</div>
+        <div class="insight-fact">⚠️ Факт існування підтверджено щорічним опитуванням · масштаб — припущення</div>
+      </div>
+
+      <div class="insight-card blue">
+        <div class="insight-num">$0.012</div>
+        <div class="insight-title">Вартість 1000 запитів — менша за каву</div>
+        <div class="insight-desc">Open WebUI: $8 502 за 709K запитів у 2026 = ~$0.012 за запит. При масштабуванні на весь банк — економіка витримує. Copilot M365 дорожчий (ліцензія), але покриває інший сценарій.</div>
+        <div class="insight-fact">📊 Факт · Open WebUI · 2026 рік</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ═══ ПРОСУНУТІ КЕЙСИ ═══ -->
+<section style="background:#080810;">
+  <div class="container">
+    <div class="section-eyebrow">Щорічне опитування · обрані кейси</div>
+    <h2 class="section-title">Далеко за межами чату.</h2>
+    <p class="section-desc">Нижче — лише те, що люди <em>самі вказали</em> в щорічному опитуванні. Проксі-звіт охоплює тільки топ-сервіси, нетипові інструменти до нього не потрапляють. Реальна картина ширша.</p>
+    <div class="advanced-list">
+      <div class="advanced-item">
+        <div class="advanced-icon">📹</div>
+        <div>
+          <div class="advanced-title">YOLO v11 — відеоаналітика</div>
+          <div class="advanced-desc">Власна модель комп'ютерного зору для аналізу відеопотоку. Не чат — власна навчена модель у продакшені.</div>
+          <div class="advanced-badge badge-assumption">⚠️ Масштаб невідомий</div>
+        </div>
+      </div>
+      <div class="advanced-item">
+        <div class="advanced-icon">⚖️</div>
+        <div>
+          <div class="advanced-title">LLM для розпізнавання постанов про арешт</div>
+          <div class="advanced-desc">Автоматизована обробка юридичних документів. Прецедент LLM у compliance-процесах банку.</div>
+          <div class="advanced-badge badge-assumption">⚠️ Масштаб невідомий</div>
+        </div>
+      </div>
+      <div class="advanced-item">
+        <div class="advanced-icon">🏠</div>
+        <div>
+          <div class="advanced-title">Первинна перевірка заставного майна</div>
+          <div class="advanced-desc">ШІ-асистент у кредитному процесі. Потенційно знижує час обробки заявок.</div>
+          <div class="advanced-badge badge-assumption">⚠️ Масштаб невідомий</div>
+        </div>
+      </div>
+      <div class="advanced-item">
+        <div class="advanced-icon">⚡</div>
+        <div>
+          <div class="advanced-title">N8N / Make — автоматизація процесів</div>
+          <div class="advanced-desc">Low-code платформи для побудови ШІ-пайплайнів. 18 осіб зі спільноти (3.5%) вже використовують.</div>
+          <div class="advanced-badge badge-fact">📊 18 осіб · спільнота</div>
+        </div>
+      </div>
+      <div class="advanced-item">
+        <div class="advanced-icon">💻</div>
+        <div>
+          <div class="advanced-title">VS Code AI + Continue + Kilo Code</div>
+          <div class="advanced-desc">ШІ в IDE для розробників. Прискорюють написання та ревʼю коду щодня.</div>
+          <div class="advanced-badge badge-fact">📊 Факт · щорічне опитування</div>
+        </div>
+      </div>
+      <div class="advanced-item">
+        <div class="advanced-icon">🔌</div>
+        <div>
+          <div class="advanced-title">GoogleADK / Responses API / Codex</div>
+          <div class="advanced-desc">Прямий доступ до LLM API для побудови кастомних агентів і застосунків всередині банку.</div>
+          <div class="advanced-badge badge-fact">📊 Факт · щорічне опитування</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ═══ РЕКОМЕНДАЦІЇ ═══ -->
+<section style="background:var(--black);">
+  <div class="container">
+    <div class="section-eyebrow">Висновки та рекомендації</div>
+    <h2 class="section-title">Що робити далі.</h2>
+    <p class="section-desc">На основі даних — не здогадок.</p>
+
+    <div class="reco-grid">
+
+      <div class="reco-card">
+        <div class="reco-num">01 · Терміново</div>
+        <div class="reco-title">Відкрити Open WebUI для бізнес-підрозділів</div>
+        <div class="reco-desc">72% трафіку у 2026 — ІТ-департамент. Більшість бізнес-підрозділів практично не мають доступу до корпоративної платформи. Це вирішувана проблема онбордингу, а не відсутності потреби. Вартість — ~$0.012 за запит.</div>
+        <div class="reco-why">Підстава: Open WebUI 3-місячні дані + перекіс за відділами</div>
+      </div>
+
+      
+
+      <div class="reco-card">
+        <div class="reco-num">02 · Стратегічно</div>
+        <div class="reco-title">Інвентаризувати стихійні ШІ-рішення</div>
+        <div class="reco-desc">YOLO v11, LLM для постанов, перевірка застави — це виробничі рішення без центральної координації та безпекового аудиту. Частина може бути золотом, частина — ризиком. Потрібен реєстр і governance.</div>
+        <div class="reco-why">⚠️ Припущення щодо масштабу · Факт існування підтверджено</div>
+      </div>
+
+      <div class="reco-card">
+        <div class="reco-num">03 · Стратегічно</div>
+        <div class="reco-title">Зафіксувати зростання Claude — і вирішити позицію</div>
+        <div class="reco-desc">Claude з нуля до 210K+ запитів на місяць за один квартал. API-трафік (розробники) — 141K. Це вже не тест. Потрібна офіційна позиція: корпоративний договір, безпека даних, дозволені сценарії.</div>
+        <div class="reco-why">📊 Факт · проксі-дані черв 2026</div>
+      </div>
+
+      
+
+      <div class="reco-card">
+        <div class="reco-num">04 · Моніторинг</div>
+        <div class="reco-title">Збирати дані системно — а не зусиллями</div>
+        <div class="reco-desc">Поточна картина зібрана з 4 різних джерел, вручну. Кожне з них має сліпі зони. Потрібен єдиний дашборд: Open WebUI, Copilot API, проксі-логи, опитування — разом і в реальному часі.</div>
+        <div class="reco-why">Підстава: методологічні обмеження поточного звіту</div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+
+<!-- ═══ FOOTER ═══ -->
+<footer>
+  <div class="footer-title">Тільки початок.</div>
+  <p class="footer-sub">Організація вже масово використовує ШІ — з ліцензіями і без, у межах VPN і поза ними, в чаті та у виробничому коді. Питання не «чи варто впроваджувати» — а «як структурувати те, що вже відбувається».</p>
+
+  <div class="legend-box">
+    <span class="legend-box-item">📊 <strong style="color:#fff;">Факт</strong> — підтверджено даними</span>
+    <span class="legend-box-item">⚠️ <strong style="color:#fff;">Припущення</strong> — потребує верифікації</span>
+  </div>
+
+  <p class="footer-note">Підготовлено на основі внутрішніх даних організації · Червень 2026 · Для внутрішнього використання</p>
+</footer>
+
+</body>
+</html>
