@@ -1,0 +1,383 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AI в організації — травень 2026</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+:root {
+  --red: #E30613;
+  --red-light: #FF4D58;
+  --red-bg: rgba(227,6,19,0.06);
+  --dark: #1a1a1a;
+  --gray-700: #555;
+  --gray-500: #888;
+  --gray-300: #ccc;
+  --gray-100: #f5f5f5;
+  --white: #fff;
+}
+* { margin:0; padding:0; box-sizing:border-box; }
+html { scroll-behavior: smooth; }
+body {
+  font-family: 'Inter', -apple-system, sans-serif;
+  background: var(--white);
+  color: var(--dark);
+  line-height: 1.6;
+  overflow-x: hidden;
+}
+
+.nav { position:fixed; right:20px; top:50%; transform:translateY(-50%); z-index:100; display:flex; flex-direction:column; gap:8px; }
+.nav a { width:10px; height:10px; border-radius:50%; background:var(--gray-300); display:block; transition:all 0.3s; border:2px solid transparent; }
+.nav a.active, .nav a:hover { background:var(--red); transform:scale(1.4); }
+.nav-label { position:absolute; right:22px; top:50%; transform:translateY(-50%); background:var(--dark); color:white; padding:4px 10px; border-radius:6px; font-size:0.7rem; font-weight:500; white-space:nowrap; opacity:0; pointer-events:none; transition:opacity 0.2s; }
+.nav a:hover .nav-label { opacity:1; }
+
+.slide { min-height:100vh; display:flex; flex-direction:column; justify-content:center; padding:60px 80px; position:relative; max-width:1400px; margin:0 auto; }
+.slide-full { max-width:none; padding:60px 80px; }
+.slide-dark { background:var(--gray-100); }
+.slide-red { background:var(--red); color:var(--white); }
+.slide-red h2, .slide-red .stat-label { color:var(--white); }
+.slide-num { position:absolute; bottom:24px; right:40px; font-size:0.7rem; color:var(--gray-300); font-weight:500; }
+.slide-red .slide-num { color:rgba(255,255,255,0.3); }
+
+.scroll-hint { position:absolute; bottom:30px; left:50%; transform:translateX(-50%); display:flex; flex-direction:column; align-items:center; gap:6px; animation:bounce 2s infinite; }
+.scroll-hint span { font-size:0.7rem; color:var(--gray-500); letter-spacing:1px; text-transform:uppercase; }
+.scroll-hint .arrow { width:20px; height:20px; border-right:2px solid var(--gray-500); border-bottom:2px solid var(--gray-500); transform:rotate(45deg); }
+@keyframes bounce { 0%,100%{transform:translateX(-50%) translateY(0)} 50%{transform:translateX(-50%) translateY(8px)} }
+
+.eyebrow { text-transform:uppercase; letter-spacing:4px; font-size:0.7rem; font-weight:600; color:var(--red); margin-bottom:20px; }
+h1 { font-size:5rem; font-weight:900; line-height:1.05; color:var(--dark); margin-bottom:20px; letter-spacing:-2px; }
+h1 span { color:var(--red); }
+h2 { font-size:2.4rem; font-weight:800; margin-bottom:8px; color:var(--dark); letter-spacing:-0.5px; }
+h2 span { color:var(--red); }
+.section-intro { font-size:1rem; color:var(--gray-700); margin-bottom:40px; max-width:700px; }
+.divider { width:50px; height:3px; background:var(--red); margin-bottom:20px; border-radius:2px; }
+.slide-red .divider { background:rgba(255,255,255,0.4); }
+
+.hero-split { display:grid; grid-template-columns:1fr 1fr; gap:40px; align-items:center; min-height:100vh; }
+.hero-left { max-width:620px; }
+@media (max-width:900px) { .hero-split { grid-template-columns:1fr; } .hero-right { display:none; } }
+.hero-facts { margin-top:16px; }
+.hero-fact { font-size:1.1rem; color:var(--gray-700); padding:8px 0; border-bottom:1px solid var(--gray-100); opacity:0; animation:heroIn 0.6s cubic-bezier(0.16,1,0.3,1) forwards; }
+.hero-fact:nth-child(1) { animation-delay:0.4s; }
+.hero-fact:nth-child(2) { animation-delay:0.55s; }
+.hero-fact:nth-child(3) { animation-delay:0.7s; }
+.hero-fact:nth-child(4) { animation-delay:0.85s; }
+.hero-fact:last-child { border-bottom:none; font-weight:600; color:var(--dark); }
+
+.hero-orbs { position:relative; width:100%; height:420px; }
+.orb { position:absolute; border-radius:50%; opacity:0.9; animation:float 6s ease-in-out infinite; }
+.orb-1 { width:180px; height:180px; background:var(--red); top:10%; left:20%; }
+.orb-2 { width:120px; height:120px; background:var(--red-light); top:50%; left:55%; animation-delay:-2s; }
+.orb-3 { width:80px; height:80px; background:var(--dark); top:25%; left:60%; animation-delay:-4s; }
+.orb-4 { width:60px; height:60px; background:var(--gray-300); top:65%; left:25%; animation-delay:-1s; }
+.orb-5 { width:40px; height:40px; background:var(--red); top:5%; left:70%; animation-delay:-3s; opacity:0.5; }
+.orb-label { position:absolute; left:50%; top:50%; transform:translate(-50%,-50%); font-size:0.7rem; font-weight:700; color:white; text-align:center; line-height:1.2; pointer-events:none; }
+.orb-3 .orb-label, .orb-4 .orb-label { font-size:0.6rem; }
+@keyframes float { 0%,100%{transform:translateY(0) scale(1)} 33%{transform:translateY(-15px) scale(1.03)} 66%{transform:translateY(10px) scale(0.97)} }
+
+.caveat { display:inline-block; background:var(--red-bg); border:1px solid rgba(227,6,19,0.15); border-radius:8px; padding:10px 20px; font-size:0.82rem; color:var(--gray-700); max-width:700px; margin-top:20px; }
+.caveat strong { color:var(--red); }
+
+.kpi-row { display:grid; grid-template-columns:repeat(3,1fr); text-align:center; width:100%; max-width:1000px; margin:0 auto; }
+.kpi-row .stat { padding:40px 20px; }
+.kpi-row .stat + .stat { border-left:1px solid rgba(255,255,255,0.2); }
+.stat-value { font-size:4.5rem; font-weight:900; line-height:1; margin-bottom:8px; }
+.stat-label { font-size:0.82rem; font-weight:500; text-transform:uppercase; letter-spacing:1.5px; color:var(--gray-500); }
+
+.kpi-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(220px,1fr)); gap:20px; margin-bottom:40px; }
+.kpi-card { background:var(--white); border-radius:16px; padding:28px; text-align:center; border:1px solid rgba(0,0,0,0.06); box-shadow:0 1px 3px rgba(0,0,0,0.04); transition:transform 0.25s cubic-bezier(0.16,1,0.3,1),box-shadow 0.25s; }
+.kpi-card:hover { transform:translateY(-4px); box-shadow:0 8px 30px rgba(0,0,0,0.08); }
+.kpi-card .num { font-size:2.8rem; font-weight:900; line-height:1; }
+.kpi-card .num.red { color:var(--red); }
+.kpi-card .lbl { font-size:0.75rem; color:var(--gray-500); text-transform:uppercase; letter-spacing:0.5px; margin-top:6px; font-weight:500; }
+
+.grid-2 { display:grid; grid-template-columns:1fr 1fr; gap:32px; }
+@media (max-width:900px) { .grid-2{grid-template-columns:1fr} h1{font-size:3rem} .slide{padding:40px 24px} .stat-value{font-size:3rem} .nav{display:none} }
+.chart-box { background:var(--white); border-radius:16px; padding:28px; border:1px solid rgba(0,0,0,0.06); box-shadow:0 1px 3px rgba(0,0,0,0.04); transition:transform 0.25s,box-shadow 0.25s; }
+.chart-box:hover { transform:translateY(-2px); box-shadow:0 8px 30px rgba(0,0,0,0.06); }
+.chart-box h3 { font-size:0.8rem; font-weight:600; color:var(--gray-500); margin-bottom:16px; text-transform:uppercase; letter-spacing:0.5px; }
+canvas { max-height:500px; }
+
+.table-wrap { overflow-x:auto; background:var(--white); border-radius:16px; border:1px solid rgba(0,0,0,0.06); box-shadow:0 1px 3px rgba(0,0,0,0.04); }
+table { width:100%; border-collapse:collapse; font-size:0.82rem; }
+th { text-align:left; padding:14px; font-size:0.68rem; font-weight:600; text-transform:uppercase; letter-spacing:0.5px; color:var(--gray-500); border-bottom:2px solid var(--gray-100); }
+td { padding:10px 14px; border-bottom:1px solid var(--gray-100); }
+tr:hover td { background:var(--red-bg); }
+tr { position:relative; }
+.row-tip { display:none; position:absolute; left:50%; top:-6px; transform:translate(-50%,-100%); background:var(--dark); color:#fff; padding:8px 14px; border-radius:8px; font-size:0.78rem; line-height:1.4; max-width:340px; white-space:normal; z-index:50; pointer-events:none; box-shadow:0 4px 12px rgba(0,0,0,0.15); }
+.row-tip::after { content:''; position:absolute; left:50%; bottom:-6px; transform:translateX(-50%); border-left:6px solid transparent; border-right:6px solid transparent; border-top:6px solid var(--dark); }
+tr:hover .row-tip { display:block; }
+.bar-wrap { width:100%; height:5px; background:var(--gray-100); border-radius:3px; overflow:hidden; }
+.bar-fill { height:100%; border-radius:3px; background:var(--red); }
+.bar-fill-g { height:100%; border-radius:3px; background:var(--gray-300); }
+.tool-rank { display:inline-flex; align-items:center; justify-content:center; width:26px; height:26px; border-radius:50%; font-size:0.72rem; font-weight:700; }
+.rank-top { background:var(--red); color:white; }
+.rank-normal { background:var(--gray-100); color:var(--gray-700); }
+
+.insight-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(280px,1fr)); gap:24px; }
+.insight-card { background:var(--white); border-radius:16px; padding:28px; border:1px solid rgba(0,0,0,0.06); box-shadow:0 1px 3px rgba(0,0,0,0.04); border-top:3px solid var(--dark); transition:transform 0.25s,box-shadow 0.25s; }
+.insight-card:hover { transform:translateY(-4px); box-shadow:0 12px 40px rgba(0,0,0,0.08); }
+.insight-tag { display:inline-block; padding:3px 10px; border-radius:99px; font-size:0.62rem; font-weight:700; text-transform:uppercase; letter-spacing:1px; margin-bottom:10px; background:rgba(0,0,0,0.05); color:var(--dark); }
+.insight-card h4 { font-size:1rem; font-weight:700; margin-bottom:8px; }
+.insight-card p { font-size:0.85rem; color:var(--gray-700); line-height:1.6; }
+
+.treemap { display:flex; flex-wrap:wrap; gap:4px; border-radius:12px; overflow:hidden; }
+.treemap-item { border-radius:8px; padding:10px 12px; display:flex; flex-direction:column; justify-content:center; min-height:60px; position:relative; overflow:hidden; transition:transform 0.15s,box-shadow 0.15s; cursor:default; }
+.treemap-item:hover { transform:scale(1.03); box-shadow:0 8px 24px rgba(0,0,0,0.2); z-index:2; }
+.treemap-item .tm-name { font-size:0.78rem; font-weight:700; line-height:1.2; }
+.treemap-item .tm-val { font-size:0.68rem; font-weight:500; opacity:0.8; margin-top:2px; }
+.treemap-item.tm-small .tm-name { font-size:0.65rem; }
+.treemap-item.tm-small .tm-val { font-size:0.58rem; }
+
+.slide-btns { position:fixed; bottom:24px; left:50%; transform:translateX(-50%); display:flex; align-items:center; gap:12px; z-index:100; background:rgba(26,26,26,0.85); backdrop-filter:blur(20px); -webkit-backdrop-filter:blur(20px); border-radius:99px; padding:6px 10px; box-shadow:0 4px 20px rgba(0,0,0,0.25); }
+.slide-btns button { width:36px; height:36px; border-radius:50%; border:none; background:transparent; color:#fff; font-size:1.1rem; cursor:pointer; display:flex; align-items:center; justify-content:center; transition:background 0.15s; }
+.slide-btns button:hover { background:var(--red); }
+.slide-btns .counter { color:rgba(255,255,255,0.6); font-size:0.75rem; font-weight:600; min-width:50px; text-align:center; }
+
+footer { text-align:center; padding:40px; font-size:0.72rem; color:var(--gray-500); border-top:1px solid var(--gray-100); }
+.note { background:var(--red-bg); border-left:3px solid var(--red); padding:14px 18px; border-radius:0 8px 8px 0; font-size:0.82rem; color:var(--gray-700); margin-top:24px; max-width:700px; }
+.note strong { color:var(--red); }
+
+.reveal { opacity:0; transform:translateY(40px); transition:opacity 0.8s cubic-bezier(0.16,1,0.3,1),transform 0.8s cubic-bezier(0.16,1,0.3,1); }
+.reveal.visible { opacity:1; transform:translateY(0); }
+.stagger > * { opacity:0; transform:translateY(30px); transition:opacity 0.6s cubic-bezier(0.16,1,0.3,1),transform 0.6s cubic-bezier(0.16,1,0.3,1); }
+.stagger.visible > * { opacity:1; transform:translateY(0); }
+.stagger.visible > *:nth-child(1) { transition-delay:0s; }
+.stagger.visible > *:nth-child(2) { transition-delay:0.08s; }
+.stagger.visible > *:nth-child(3) { transition-delay:0.16s; }
+.stagger.visible > *:nth-child(4) { transition-delay:0.24s; }
+.stagger.visible > *:nth-child(5) { transition-delay:0.32s; }
+.stagger.visible > *:nth-child(6) { transition-delay:0.4s; }
+
+.hero-anim h1 { opacity:0; transform:translateY(50px); animation:heroIn 1s cubic-bezier(0.16,1,0.3,1) 0.2s forwards; }
+.hero-anim .eyebrow { opacity:0; animation:heroIn 0.8s cubic-bezier(0.16,1,0.3,1) 0s forwards; }
+.hero-anim .caveat { opacity:0; animation:heroIn 0.8s cubic-bezier(0.16,1,0.3,1) 0.7s forwards; }
+@keyframes heroIn { from{opacity:0;transform:translateY(40px)} to{opacity:1;transform:translateY(0)} }
+</style>
+</head>
+<body>
+
+<nav class="nav" id="nav"></nav>
+<div class="slide-btns">
+  <button id="btnPrev" title="Попередній">&#9650;</button>
+  <span class="counter" id="slideCounter">1 / 12</span>
+  <button id="btnNext" title="Наступний">&#9660;</button>
+</div>
+
+<section class="slide hero-anim" id="s0" data-label="Початок" style="padding:0 80px;max-width:1400px">
+  <div class="hero-split">
+    <div class="hero-left">
+      <div class="eyebrow">Звіт для CEO · Травень 2026</div>
+      <h1>AI вже тут.<br>І він <span>масштабний.</span></h1>
+      <div class="hero-facts">
+        <div class="hero-fact">Аналіз трафіку корпоративного проксі за травень 2026</div>
+        <div class="hero-fact">155 AI-інструментів виявлено</div>
+        <div class="hero-fact">1.2 мільйона запитів за місяць</div>
+        <div class="hero-fact">Кожен третій співробітник вже використовує AI щодня</div>
+      </div>
+      <div class="caveat"><strong>*</strong> Дані охоплюють трафік через проксі. ~300 MacBook та частина Windows (без AC) не враховані.</div>
+    </div>
+    <div class="hero-right">
+      <div class="hero-orbs">
+        <div class="orb orb-1"><span class="orb-label">ChatGPT<br>871</span></div>
+        <div class="orb orb-2"><span class="orb-label">Claude<br>187</span></div>
+        <div class="orb orb-3"><span class="orb-label">Copilot<br>284</span></div>
+        <div class="orb orb-4"><span class="orb-label">Gemini<br>117</span></div>
+        <div class="orb orb-5"></div>
+      </div>
+    </div>
+  </div>
+  <div class="scroll-hint"><span>Гортай</span><div class="arrow"></div></div>
+  <div class="slide-num">01 / 12</div>
+</section>
+
+<section class="slide slide-full slide-red" id="s1" data-label="Цифри">
+  <div class="kpi-row">
+    <div class="stat"><div class="stat-value">1 836*</div><div class="stat-label" style="color:rgba(255,255,255,0.7)">Унікальних людей із AI</div></div>
+    <div class="stat"><div class="stat-value">1.2M</div><div class="stat-label" style="color:rgba(255,255,255,0.7)">Запитів за місяць</div></div>
+    <div class="stat"><div class="stat-value">155</div><div class="stat-label" style="color:rgba(255,255,255,0.7)">AI-інструментів виявлено</div></div>
+  </div>
+  <div class="slide-num">02 / 12</div>
+</section>
+
+<section class="slide slide-dark" id="s2" data-label="Adoption">
+  <div class="divider"></div>
+  <h2>Масштаб <span>adoption</span></h2>
+  <p class="section-intro">Як глибоко AI проник в організацію з ~5 000 співробітників.</p>
+  <div class="kpi-grid stagger reveal">
+    <div class="kpi-card"><div class="num red">~37%</div><div class="lbl">Рівень adoption</div></div>
+    <div class="kpi-card"><div class="num">1.6</div><div class="lbl">AI-інструментів<br>на людину (середнє)</div></div>
+    <div class="kpi-card"><div class="num red">76</div><div class="lbl">Категорій<br>застосування</div></div>
+    <div class="kpi-card"><div class="num">155</div><div class="lbl">Інструментів<br>у реєстрі</div></div>
+  </div>
+  <div class="note"><strong>Середнє 1.6 інструменти на людину</strong> — співробітники активно порівнюють моделі та обирають різні інструменти під різні задачі.</div>
+  <div class="slide-num">03 / 12</div>
+</section>
+
+<section class="slide" id="s3" data-label="Топ за людьми">
+  <div class="divider"></div>
+  <h2>Топ-10 <span>за кількістю людей</span></h2>
+  <p class="section-intro">ChatGPT — безумовний лідер. Але інші моделі набирають масу. Кожен п'ятий AI-юзер вже спробував Claude.</p>
+  <div class="grid-2 stagger reveal">
+    <div class="chart-box"><h3>Унікальних користувачів</h3><canvas id="c_top_u"></canvas></div>
+    <div class="chart-box"><h3>Запитів (обсяг трафіку)</h3><canvas id="c_top_r"></canvas></div>
+  </div>
+  <div class="slide-num">04 / 12</div>
+</section>
+
+<section class="slide slide-dark" id="s4" data-label="Топ за трафіком">
+  <div class="divider"></div>
+  <h2>Топ-10 <span>за обсягом трафіку</span></h2>
+  <p class="section-intro">Зовсім інша картина. Інструменти для письма та API-інтеграції генерують у рази більше трафіку ніж чат-моделі.</p>
+  <div class="grid-2 stagger reveal">
+    <div class="chart-box"><h3>Запитів за місяць</h3><canvas id="c_traf_r"></canvas></div>
+    <div class="chart-box"><h3>Користувачів (для контексту)</h3><canvas id="c_traf_u"></canvas></div>
+  </div>
+  <div class="slide-num">05 / 12</div>
+</section>
+
+<section class="slide" id="s5" data-label="LLM">
+  <div class="divider"></div>
+  <h2>Ландшафт <span>LLM-чатів</span></h2>
+  <p class="section-intro">9 різних чат-моделей. ChatGPT — лідер за аудиторією, але Claude генерує у 3.8× більше трафіку.</p>
+  <div class="grid-2 stagger reveal">
+    <div class="chart-box"><h3>Користувачі</h3><canvas id="c_llm_u"></canvas></div>
+    <div class="chart-box"><h3>Запити</h3><canvas id="c_llm_r"></canvas></div>
+  </div>
+  <div class="slide-num">06 / 12</div>
+</section>
+
+<section class="slide slide-dark" id="s6" data-label="Категорії" style="min-height:auto;padding-top:60px;padding-bottom:60px">
+  <div class="divider"></div>
+  <h2>76 категорій → <span>23 напрямки</span></h2>
+  <p class="section-intro">Усі 76 категорій згруповані у 23 мега-напрямки. Розмір блоку — пропорційний кількості людей.</p>
+  <div class="treemap reveal" id="treemap"></div>
+  <div class="slide-num">07 / 12</div>
+</section>
+
+<section class="slide" id="s7" data-label="Код">
+  <div class="divider"></div>
+  <h2>AI <span>у розробці</span></h2>
+  <p class="section-intro">19 інструментів для написання, ревʼю та деплою коду. Топ-10 на графіках.</p>
+  <div class="grid-2 stagger reveal">
+    <div class="chart-box"><h3>Код-інструменти: користувачі (топ-10 із 19)</h3><canvas id="c_code_u"></canvas></div>
+    <div class="chart-box"><h3>Код-інструменти: запити (топ-10 із 19)</h3><canvas id="c_code_r"></canvas></div>
+  </div>
+  <div class="slide-num">08 / 12</div>
+</section>
+
+<section class="slide slide-dark" id="s8" data-label="Письмо">
+  <div class="divider"></div>
+  <h2>AI <span>у письмі та перекладі</span></h2>
+  <p class="section-intro">Прихований лідер трафіку. LanguageTool + QuillBot = 441K запитів — більше ніж ChatGPT + Claude разом.</p>
+  <div class="grid-2 stagger reveal">
+    <div class="chart-box"><h3>Користувачі</h3><canvas id="c_wr_u"></canvas></div>
+    <div class="chart-box"><h3>Запити</h3><canvas id="c_wr_r"></canvas></div>
+  </div>
+  <div class="slide-num">09 / 12</div>
+</section>
+
+<section class="slide" id="s9" data-label="Таблиця">
+  <div class="divider"></div>
+  <h2>Топ-30 <span>детально</span></h2>
+  <p class="section-intro">Повний розріз: інструмент, категорія, люди, трафік, кількість доменів.</p>
+  <div class="table-wrap reveal">
+    <table>
+      <thead><tr><th>#</th><th>Інструмент</th><th>Категорія</th><th>Люди</th><th style="min-width:100px"></th><th>Запити</th><th style="min-width:100px"></th><th>Домени</th></tr></thead>
+      <tbody id="topTable"></tbody>
+    </table>
+  </div>
+  <div class="slide-num">10 / 12</div>
+</section>
+
+<section class="slide slide-dark" id="s10" data-label="Довгий хвіст">
+  <div class="divider"></div>
+  <h2>Довгий хвіст: <span>розподіл інструментів</span></h2>
+  <p class="section-intro">Із 155 інструментів лише 13 мають більше 30 користувачів. 78 — лише 1-2 людини.</p>
+  <div class="grid-2 stagger reveal">
+    <div>
+      <div class="kpi-grid stagger reveal" style="grid-template-columns:1fr 1fr 1fr">
+        <div class="kpi-card"><div class="num red">13</div><div class="lbl">&gt;30 людей</div></div>
+        <div class="kpi-card"><div class="num">64</div><div class="lbl">3–30 людей</div></div>
+        <div class="kpi-card"><div class="num">78</div><div class="lbl">1–2 людини</div></div>
+      </div>
+    </div>
+    <div class="chart-box"><h3>Кількість інструментів за розміром аудиторії</h3><canvas id="c_tail"></canvas></div>
+  </div>
+  <div class="slide-num">11 / 12</div>
+</section>
+
+<section class="slide" id="s11" data-label="Висновки">
+  <div class="divider"></div>
+  <h2>Ключові <span>висновки</span></h2>
+  <div class="insight-grid stagger reveal">
+    <div class="insight-card"><div class="insight-tag">Інсайт</div><h4>AI — масовий інструмент</h4><p>37%+ організації активно використовує AI. З Mac-користувачами (~300) реальний показник 40-45%. Це повсякденна практика.</p></div>
+    <div class="insight-card"><div class="insight-tag">Інсайт</div><h4>Люди мультиінструментальні</h4><p>В середньому 1.6 AI-інструменти на людину (2 955 пар на 1 836 осіб). Люди пробують кілька моделей і обирають під задачу.</p></div>
+    <div class="insight-card"><div class="insight-tag">Інсайт</div><h4>Письмо — прихований лідер</h4><p>LanguageTool (283K) + QuillBot (158K) = 441K запитів. Більше ніж ChatGPT + Claude разом. AI для текстів — найінтегрованіша категорія.</p></div>
+    <div class="insight-card"><div class="insight-tag">Інсайт</div><h4>Claude = платформа, не чат</h4><p>187 користувачів, але 228K запитів (ChatGPT: 871 людей, 60K). Claude використовується через API, Code та агенти.</p></div>
+    <div class="insight-card"><div class="insight-tag">Інсайт</div><h4>AI глибоко в розробці</h4><p>19 код-інструментів, 280+ розробників. Від Copilot і Lovable до Cursor, Cline та Devin. AI-код — вже стандарт.</p></div>
+    <div class="insight-card"><div class="insight-tag">Інсайт</div><h4>76 категорій застосування</h4><p>AI у всьому — від чатів до 3D-генерації, транскрибації, музики та діаграм. Жодна функція не осторонь.</p></div>
+  </div>
+  <div class="slide-num">12 / 12</div>
+</section>
+
+<footer>Джерело: логи корпоративного проксі · Травень 2026 · 155 інструментів · Підготовлено за допомогою Claude</footer>
+
+<script>
+Chart.defaults.color='#888';Chart.defaults.borderColor='rgba(0,0,0,0.06)';Chart.defaults.font.family="'Inter',-apple-system,sans-serif";Chart.defaults.font.size=12;
+const RED='#E30613',RED_L='#FF4D58',GRAY='#ccc';
+const col=n=>Array.from({length:n},(_,i)=>i<3?RED:i<6?RED_L:GRAY);
+const toolDesc={'ChatGPT':'Чат-модель OpenAI. Найпопулярніший LLM у світі.','Microsoft Copilot':'AI-асистент Microsoft у Office, Edge, Windows.','DeepL':'Машинний переклад 30+ мов.','LanguageTool':'Перевірка граматики та стилю. Плагін для браузера.','Claude':'LLM від Anthropic. Чат, API, Claude Code.','Grok':'LLM від xAI. Інтегрований у X/Twitter.','Google Gemini':'LLM від Google у пошуку та Workspace.','Lovable':'No-code: текст → вебдодаток.','GitHub Copilot':'AI-автокомплітер коду для IDE.','Gamma':'AI-генератор презентацій.','QuillBot':'Перефразування тексту. Плагін.','Notion AI':'AI-асистент у Notion.','ElevenLabs':'Генерація голосу.','Creatify':'AI-відеоконтент.','Perplexity':'AI-пошуковик з джерелами.','DeepSeek':'Китайський open-source LLM.','Kimi':'LLM від Moonshot AI.','Qwen':'LLM від Alibaba.','Use AI':'AI-агент для розробки.','JetBrains AI':'AI в IntelliJ/PyCharm.','Claude Code':'CLI від Anthropic для кодингу.','Cursor':'AI-редактор коду.','Codeium/Windsurf':'Безкоштовний AI-автокомплітер.','Kilo':'AI-агент для розробки.','Replit':'Онлайн IDE з AI.','Continue.dev':'Open-source AI для IDE.','Cline':'AI-агент для коду в IDE.','NotebookLM':'AI-дослідження від Google.','Zapier':'Автоматизація 6000+ сервісів.','n8n':'Open-source автоматизація.','Framer':'AI-конструктор сайтів.','Gravity':'AI-маркетинг.','Magnific':'AI-апскейлер зображень.','Chatbase':'AI-чатботи.','HeyGen':'AI-відео з аватарами.','JustDone':'AI-написання контенту.','ManyChat':'Автоматизація месенджерів.','Remove.bg':'AI-видалення фону.','TurboScribe':'AI-транскрибація.','Hugging Face':'Open-source AI-моделі.','BotPenguin':'No-code чат-боти.','Doclingo':'AI-переклад документів.','Smartcat':'Переклад з AI та TM.','Translated':'AI-переклад.'};
+const barH=(id,labels,data,colors,xLabel)=>new Chart(document.getElementById(id),{type:'bar',data:{labels,datasets:[{data,backgroundColor:colors||col(data.length),borderRadius:4,borderSkipped:false}]},options:{indexAxis:'y',plugins:{legend:{display:false},tooltip:{callbacks:{title:c=>{const n=c[0].label;return toolDesc[n]?n:''},afterTitle:c=>{const n=c[0].label;return toolDesc[n]||''},label:c=>c.parsed.x>=1000?Math.round(c.parsed.x/1000)+'K':c.parsed.x.toLocaleString()},bodyFont:{size:11},titleFont:{size:13,weight:'bold'},padding:12,displayColors:false}},scales:{x:{grid:{display:false},ticks:{callback:v=>v>=1000?(v/1000)+'K':v},title:{display:!!xLabel,text:xLabel||'',font:{size:11},color:'#888'}},y:{grid:{display:false}}}}});
+
+const t10=[['ChatGPT',871,60362],['Microsoft Copilot',284,4377],['DeepL',196,34415],['LanguageTool',193,283277],['Claude',187,228111],['Grok',167,9407],['Google Gemini',117,23963],['Lovable',112,2663],['GitHub Copilot',67,12704],['Gamma',53,20342]];
+barH('c_top_u',t10.map(t=>t[0]),t10.map(t=>t[1]),null,'Унікальних людей');
+barH('c_top_r',t10.map(t=>t[0]),t10.map(t=>t[2]),null,'Запитів через проксі');
+const t10t=[['LanguageTool',283277,193],['Claude',228111,187],['QuillBot',157615,14],['ChatGPT',60362,871],['Notion AI',35915,36],['DeepL',34415,196],['ElevenLabs',28217,18],['Google Gemini',23963,117],['Creatify',21595,2],['Gamma',20342,53]];
+barH('c_traf_r',t10t.map(t=>t[0]),t10t.map(t=>t[1]),null,'Запитів через проксі');
+barH('c_traf_u',t10t.map(t=>t[0]),t10t.map(t=>t[2]),null,'Унікальних людей');
+const llms=[['ChatGPT',871,60362],['Microsoft Copilot',284,4377],['Claude',187,228111],['Grok',167,9407],['Google Gemini',117,23963],['Perplexity',16,10149],['DeepSeek',7,4465],['Kimi',2,34],['Qwen',1,9]];
+barH('c_llm_u',llms.map(l=>l[0]),llms.map(l=>l[1]),null,'Унікальних людей');
+barH('c_llm_r',llms.map(l=>l[0]),llms.map(l=>l[2]),null,'Запитів через проксі');
+
+const megaCats=[['Чат та LLM',1673,343372,19],['Код та розробка',288,53764,20],['Письмо',220,441306,3],['Переклад',201,34736,4],['Чат-боти',74,1579,13],['Презентації',66,20760,6],['Продуктивність',52,36147,7],['Дослідження',49,802,1],['Зображення',48,1830,10],['Автоматизація',46,17565,4],['LLM-інфраструктура',36,2384,11],['Аудіо',27,33336,6],['Відео',26,43968,11],['Сайтбілдер',24,160,2],['Інше',23,777,15],['Транскрибація',21,17846,5],['AI-платформи',17,13451,3],['Маркетинг',16,1102,1],['Документація',14,145,3],['Візуалізації',9,11350,2],['Дизайн',9,844,4],['Навчання',8,4108,2],['Хостинг/Деплой',8,2008,3]];
+const tmC=['#E30613','#C4050F','#FF4D58','#FF7A82','#B80510','#D44','#E55','#F66','#C33','#D55','#E77','#F88','#A33','#B44','#C55','#D66','#888','#999','#aaa','#bbb','#ccc','#ddd','#eee'];
+const tmEl=document.getElementById('treemap');const tU=megaCats.reduce((s,c)=>s+c[1],0);
+megaCats.forEach((c,i)=>{const p=c[1]/tU*100;const d=document.createElement('div');d.className='treemap-item'+(p<3?' tm-small':'');d.style.background=tmC[i];d.style.color=i<12?'#fff':'#222';d.style.flexBasis=Math.max(p*3.5,6)+'%';d.style.flexGrow=Math.max(1,Math.round(p/3));d.innerHTML='<span class="tm-name">'+c[0]+'</span><span class="tm-val">'+c[1]+' людей · '+c[3]+' інстр.</span>';d.title=c[0]+': '+c[1]+' користувачів, '+c[2].toLocaleString()+' запитів, '+c[3]+' інструментів';tmEl.appendChild(d);});
+
+const code=[['Lovable',112,2663],['GitHub Copilot',67,12704],['Use AI',43,12203],['JetBrains AI',25,2394],['Claude Code',21,1352],['Cursor',7,2054],['Kilo',7,450],['Codeium/Windsurf',3,13585],['Continue.dev',3,124],['Cline',2,5721]];
+barH('c_code_u',code.map(c=>c[0]),code.map(c=>c[1]),null,'Унікальних людей');
+barH('c_code_r',code.map(c=>c[0]),code.map(c=>c[2]),null,'Запитів через проксі');
+const wr=[['LanguageTool',193,283277],['DeepL',196,34415],['QuillBot',14,157615],['Notion AI',36,35915],['JustDone',13,414],['Doclingo',3,269],['Smartcat',1,47],['Translated',1,5]];
+barH('c_wr_u',wr.map(w=>w[0]),wr.map(w=>w[1]),null,'Унікальних людей');
+barH('c_wr_r',wr.map(w=>w[0]),wr.map(w=>w[2]),null,'Запитів через проксі');
+
+const top30=[[1,'ChatGPT (OpenAI)','Чат/LLM',871,60362,45],[2,'Microsoft Copilot','Чат/LLM',284,4377,6],[3,'DeepL','Переклад',196,34415,26],[4,'LanguageTool','Письмо/Граматика',193,283277,7],[5,'Claude (Anthropic)','Чат/LLM',187,228111,34],[6,'Grok (xAI)','Чат/LLM',167,9407,19],[7,'Google Gemini','Чат/LLM',117,23963,10],[8,'Lovable','Код/No-code',112,2663,41],[9,'GitHub Copilot','Код',67,12704,6],[10,'Gamma','Презентації',53,20342,8],[11,'NotebookLM','Дослідження',49,802,2],[12,'Use AI','Код/Агент',43,12203,8],[13,'Notion AI','Продуктивність',36,35915,32],[14,'Zapier','Автоматизація',27,228,8],[15,'JetBrains AI','Код',25,2394,5],[16,'Framer','Сайтбілдер',21,153,6],[17,'ElevenLabs','Аудіо/Голос',18,28217,6],[18,'Perplexity','Чат/Пошук',16,10149,7],[19,'Gravity','Маркетинг',16,1102,1],[20,'Magnific','Зображення',16,553,2],[21,'n8n','Автом./Агенти',15,17175,8],[22,'QuillBot','Письмо',14,157615,10],[23,'Chatbase','Чат-боти',14,172,1],[24,'HeyGen','Відео/Аватари',13,19537,7],[25,'JustDone','Письмо',13,414,2],[26,'ManyChat','Чат-боти',12,24,1],[27,'Remove.bg','Зображення',11,149,6],[28,'TurboScribe','Транскрибація',10,14525,1],[29,'Hugging Face','AI-платформа',10,868,4],[30,'BotPenguin','Чат-боти',10,202,3]];
+const maxU=871,maxR=283277,tbody=document.getElementById('topTable');
+const tD={'ChatGPT (OpenAI)':'Найпопулярніший LLM-чат. Генерація тексту, аналіз, кодинг.','Microsoft Copilot':'AI-асистент Microsoft в Office 365, Edge, Windows.','DeepL':'Машинний переклад. Якість вища за Google Translate.','LanguageTool':'Перевірка граматики у 30+ мовах. Плагін у браузері.','Claude (Anthropic)':'LLM від Anthropic. 228K запитів = глибока API-інтеграція.','Grok (xAI)':'LLM від xAI. Інтегрований у X/Twitter.','Google Gemini':'LLM від Google у пошуку, Gmail, Docs.','Lovable':'No-code: текст → готовий вебдодаток.','GitHub Copilot':'AI-автокомплітер коду. Плагін для IDE.','Gamma':'AI-генератор презентацій та документів.','NotebookLM':'AI-дослідження від Google.','Use AI':'AI-агент для автоматизації розробки.','Notion AI':'AI у Notion: генерація, резюме, переклад.','Zapier':'Автоматизація 6000+ сервісів без коду.','JetBrains AI':'AI в IntelliJ, PyCharm, WebStorm.','Framer':'AI-конструктор сайтів.','ElevenLabs':'Генерація реалістичного голосу.','Perplexity':'AI-пошуковик з посиланнями на джерела.','Gravity':'AI для маркетингової аналітики.','Magnific':'AI-апскейлер зображень.','n8n':'Open-source автоматизація workflow.','QuillBot':'Перефразування тексту. Плагін.','Chatbase':'AI-чатботи на власних даних.','HeyGen':'AI-відео з аватарами.','JustDone':'AI для маркетингового контенту.','ManyChat':'Автоматизація чатів у месенджерах.','Remove.bg':'AI-видалення фону.','TurboScribe':'AI-транскрибація аудіо/відео.','Hugging Face':'Найбільша open-source AI-платформа.','BotPenguin':'No-code чат-боти.'};
+top30.forEach(t=>{const tr=document.createElement('tr');const rc=t[0]<=3?'rank-top':'rank-normal';const desc=tD[t[1]]||'';tr.innerHTML=`<td><span class="tool-rank ${rc}">${t[0]}</span></td><td><strong>${t[1]}</strong>${desc?'<div class="row-tip">'+desc+'</div>':''}</td><td style="color:#888">${t[2]}</td><td><strong>${t[3].toLocaleString()}</strong></td><td><div class="bar-wrap"><div class="bar-fill" style="width:${t[3]/maxU*100}%"></div></div></td><td>${t[4].toLocaleString()}</td><td><div class="bar-wrap"><div class="bar-fill-g" style="width:${t[4]/maxR*100}%"></div></div></td><td>${t[5]}</td>`;tbody.appendChild(tr)});
+
+const bins=[['100+',8],['30-99',5],['10-29',18],['5-9',18],['3-4',28],['2',24],['1',54]];
+new Chart(document.getElementById('c_tail'),{type:'bar',data:{labels:bins.map(b=>b[0]+' юз.'),datasets:[{data:bins.map(b=>b[1]),backgroundColor:bins.map((_,i)=>i<2?RED:i<4?RED_L:GRAY),borderRadius:4,borderSkipped:false}]},options:{plugins:{legend:{display:false}},scales:{y:{grid:{display:false},title:{display:true,text:'Кількість інструментів',font:{size:11}}},x:{grid:{display:false}}}}});
+
+const slides=document.querySelectorAll('.slide'),nav=document.getElementById('nav');
+slides.forEach((s,i)=>{const a=document.createElement('a');a.href='#'+s.id;const l=document.createElement('span');l.className='nav-label';l.textContent=s.dataset.label||'';a.style.position='relative';a.appendChild(l);nav.appendChild(a);});
+const dots=nav.querySelectorAll('a');let currentSlide=0;const ctr=document.getElementById('slideCounter'),ts=slides.length;
+function goTo(idx){slides[Math.max(0,Math.min(idx,ts-1))].scrollIntoView({behavior:'smooth'});}
+const obs=new IntersectionObserver(e=>{e.forEach(en=>{if(en.isIntersecting){const idx=[...slides].indexOf(en.target);dots.forEach((d,i)=>d.classList.toggle('active',i===idx));currentSlide=idx;ctr.textContent=(idx+1)+' / '+ts;}});},{threshold:0.4});
+slides.forEach(s=>obs.observe(s));
+document.getElementById('btnNext').addEventListener('click',()=>goTo(currentSlide+1));
+document.getElementById('btnPrev').addEventListener('click',()=>goTo(currentSlide-1));
+document.addEventListener('keydown',e=>{if(e.key==='ArrowDown'||e.key==='PageDown'||e.key==='ArrowRight'){e.preventDefault();goTo(currentSlide+1);}else if(e.key==='ArrowUp'||e.key==='PageUp'||e.key==='ArrowLeft'){e.preventDefault();goTo(currentSlide-1);}});
+
+new IntersectionObserver(e=>{e.forEach(en=>{if(en.isIntersecting)en.target.classList.add('visible');});},{threshold:0.15}).observe(document.querySelector('.reveal'))||document.querySelectorAll('.reveal').forEach(el=>new IntersectionObserver(e=>{e.forEach(en=>{if(en.isIntersecting)en.target.classList.add('visible');});},{threshold:0.15}).observe(el));
+
+function ac(el,t,s=''){const d=1200,st=performance.now(),f=String(t).includes('.');(function tick(n){const p=Math.min((n-st)/d,1),e=1-Math.pow(1-p,3),v=t*e;el.textContent=f?v.toFixed(1)+s:t>=1e6?(v/1e6).toFixed(1)+'M'+s:Math.round(v).toLocaleString('uk-UA').replace(/,/g,' ')+s;if(p<1)requestAnimationFrame(tick);})(performance.now());}
+document.querySelectorAll('.stat-value').forEach(el=>{new IntersectionObserver(e=>{e.forEach(en=>{if(en.isIntersecting&&!en.target.dataset.a){en.target.dataset.a='1';const t=en.target.textContent.trim();if(t.includes('1 836'))ac(en.target,1836,'*');else if(t.includes('1.2M'))ac(en.target,1200000);else if(t==='155')ac(en.target,155);}});},{threshold:0.5}).observe(el);});
+document.querySelectorAll('.kpi-card .num').forEach(el=>{new IntersectionObserver(e=>{e.forEach(en=>{if(en.isIntersecting&&!en.target.dataset.a){en.target.dataset.a='1';const t=en.target.textContent.trim();if(t.includes('37'))ac(en.target,37,'%');else if(t==='1.6')ac(en.target,1.6);else if(t==='76')ac(en.target,76);else if(t==='155')ac(en.target,155);else if(t==='13')ac(en.target,13);else if(t==='64')ac(en.target,64);else if(t==='78')ac(en.target,78);}});},{threshold:0.5}).observe(el);});
+</script>
+</body>
+</html>
