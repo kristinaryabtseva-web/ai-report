@@ -176,7 +176,7 @@ footer { text-align:center; padding:40px; font-size:0.72rem; color:var(--gray-50
         <div class="hero-fact">Аналіз трафіку корпоративного проксі за травень 2026</div>
         <div class="hero-fact">155 AI-інструментів виявлено</div>
         <div class="hero-fact">1.2 мільйона запитів за місяць</div>
-        <div class="hero-fact">Кожен третій співробітник вже використовує AI щодня</div>
+        <div class="hero-fact">Кожен четвертий співробітник вже використовує AI</div>
       </div>
       <div class="caveat"><strong>*</strong> Дані охоплюють трафік через проксі. ~300 MacBook та частина Windows (без AC) не враховані.</div>
     </div>
@@ -206,9 +206,9 @@ footer { text-align:center; padding:40px; font-size:0.72rem; color:var(--gray-50
 <section class="slide slide-dark" id="s2" data-label="Adoption">
   <div class="divider"></div>
   <h2>Масштаб <span>adoption</span></h2>
-  <p class="section-intro">Як глибоко AI проник в організацію з ~5 000 співробітників.</p>
+  <p class="section-intro">Як глибоко AI проник в організацію з ~7 000 співробітників.</p>
   <div class="kpi-grid stagger reveal">
-    <div class="kpi-card"><div class="num red">~37%</div><div class="lbl">Рівень adoption</div></div>
+    <div class="kpi-card"><div class="num red">~26%</div><div class="lbl">Рівень adoption</div></div>
     <div class="kpi-card"><div class="num">1.6</div><div class="lbl">AI-інструментів<br>на людину (середнє)</div></div>
     <div class="kpi-card"><div class="num red">76</div><div class="lbl">Категорій<br>застосування</div></div>
     <div class="kpi-card"><div class="num">155</div><div class="lbl">Інструментів<br>у реєстрі</div></div>
@@ -220,7 +220,7 @@ footer { text-align:center; padding:40px; font-size:0.72rem; color:var(--gray-50
 <section class="slide" id="s3" data-label="Топ за людьми">
   <div class="divider"></div>
   <h2>Топ-10 <span>за кількістю людей</span></h2>
-  <p class="section-intro">ChatGPT — безумовний лідер. Але інші моделі набирають масу. Кожен п'ятий AI-юзер вже спробував Claude.</p>
+  <p class="section-intro">ChatGPT — безумовний лідер. Але інші моделі набирають масу. Кожен десятий AI-юзер вже працює з Claude.</p>
   <div class="grid-2 stagger reveal">
     <div class="chart-box"><h3>Унікальних користувачів</h3><canvas id="c_top_u"></canvas></div>
     <div class="chart-box"><h3>Запитів (обсяг трафіку)</h3><canvas id="c_top_r"></canvas></div>
@@ -314,7 +314,7 @@ footer { text-align:center; padding:40px; font-size:0.72rem; color:var(--gray-50
   <div class="divider"></div>
   <h2>Ключові <span>висновки</span></h2>
   <div class="insight-grid stagger reveal">
-    <div class="insight-card"><div class="insight-tag">Інсайт</div><h4>AI — масовий інструмент</h4><p>37%+ організації активно використовує AI. З Mac-користувачами (~300) реальний показник 40-45%. Це повсякденна практика.</p></div>
+    <div class="insight-card"><div class="insight-tag">Інсайт</div><h4>AI — масовий інструмент</h4><p>26% організації активно використовує AI. З Mac-користувачами (~300) реальний показник ~28-30%. Це повсякденна практика.</p></div>
     <div class="insight-card"><div class="insight-tag">Інсайт</div><h4>Люди мультиінструментальні</h4><p>В середньому 1.6 AI-інструменти на людину (2 955 пар на 1 836 осіб). Люди пробують кілька моделей і обирають під задачу.</p></div>
     <div class="insight-card"><div class="insight-tag">Інсайт</div><h4>Письмо — прихований лідер</h4><p>LanguageTool (283K) + QuillBot (158K) = 441K запитів. Більше ніж ChatGPT + Claude разом. AI для текстів — найінтегрованіша категорія.</p></div>
     <div class="insight-card"><div class="insight-tag">Інсайт</div><h4>Claude = платформа, не чат</h4><p>187 користувачів, але 228K запитів (ChatGPT: 871 людей, 60K). Claude використовується через API, Code та агенти.</p></div>
@@ -377,7 +377,7 @@ new IntersectionObserver(e=>{e.forEach(en=>{if(en.isIntersecting)en.target.class
 
 function ac(el,t,s=''){const d=1200,st=performance.now(),f=String(t).includes('.');(function tick(n){const p=Math.min((n-st)/d,1),e=1-Math.pow(1-p,3),v=t*e;el.textContent=f?v.toFixed(1)+s:t>=1e6?(v/1e6).toFixed(1)+'M'+s:Math.round(v).toLocaleString('uk-UA').replace(/,/g,' ')+s;if(p<1)requestAnimationFrame(tick);})(performance.now());}
 document.querySelectorAll('.stat-value').forEach(el=>{new IntersectionObserver(e=>{e.forEach(en=>{if(en.isIntersecting&&!en.target.dataset.a){en.target.dataset.a='1';const t=en.target.textContent.trim();if(t.includes('1 836'))ac(en.target,1836,'*');else if(t.includes('1.2M'))ac(en.target,1200000);else if(t==='155')ac(en.target,155);}});},{threshold:0.5}).observe(el);});
-document.querySelectorAll('.kpi-card .num').forEach(el=>{new IntersectionObserver(e=>{e.forEach(en=>{if(en.isIntersecting&&!en.target.dataset.a){en.target.dataset.a='1';const t=en.target.textContent.trim();if(t.includes('37'))ac(en.target,37,'%');else if(t==='1.6')ac(en.target,1.6);else if(t==='76')ac(en.target,76);else if(t==='155')ac(en.target,155);else if(t==='13')ac(en.target,13);else if(t==='64')ac(en.target,64);else if(t==='78')ac(en.target,78);}});},{threshold:0.5}).observe(el);});
+document.querySelectorAll('.kpi-card .num').forEach(el=>{new IntersectionObserver(e=>{e.forEach(en=>{if(en.isIntersecting&&!en.target.dataset.a){en.target.dataset.a='1';const t=en.target.textContent.trim();if(t.includes('26'))ac(en.target,26,'%');else if(t==='1.6')ac(en.target,1.6);else if(t==='76')ac(en.target,76);else if(t==='155')ac(en.target,155);else if(t==='13')ac(en.target,13);else if(t==='64')ac(en.target,64);else if(t==='78')ac(en.target,78);}});},{threshold:0.5}).observe(el);});
 </script>
 </body>
 </html>
